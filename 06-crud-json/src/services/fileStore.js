@@ -28,6 +28,10 @@ function loadTasks() {
 function save() {
     writeFileSync(FILE_PATH, JSON.stringify(tasks, null, 2), 'utf-8');
 }
+function add(newTask) {
+    tasks.push(newTask);
+    save();
+}
 
 function getAllTasks() {
     return [...tasks];
@@ -38,4 +42,4 @@ function getById(id) {
 }
 loadTasks();
 
-export { getAllTasks, getById };
+export { getAllTasks, getById, add };

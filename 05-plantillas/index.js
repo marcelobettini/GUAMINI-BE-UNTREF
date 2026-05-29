@@ -15,9 +15,11 @@ app.get('/', (req, res) => {
 
     res.render('index', { title: "Prueba de Express y EJS", description: "Esta es una prueba de cómo usar EJS con Express" });
 });
+
 app.get('/women', (req, res) => {
     res.render('women', { women });
 });
+
 app.use((req, res) => {
     res.status(404).json({ message: "Ruta inexistente" });
 });

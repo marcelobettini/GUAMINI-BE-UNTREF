@@ -1,5 +1,5 @@
 import express from 'express';
-import data from "../02-servidor-nativo-con-rutas/recipes.json" with {type: 'json'};
+import data from "./data/recipes.json" with {type: "json"};
 
 const PORT = 3000;
 
@@ -11,6 +11,7 @@ server.get('/', (req, res) => {
 server.get('about/', (req, res) => {
     res.send("Hola desde la ruta raíz de nuestra API");
 });
+
 
 server.get("/recipes", (req, res) => {
     res.json(data.recipes);

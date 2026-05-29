@@ -16,5 +16,23 @@
     "completed": false,
     "createdAt": "2026-05-12T00:02:44.001Z",
     "updatedAt": "2026-05-12T00:02:44.001Z"
+  },
+  {
+    "id": "658ad54f-e772-4d07-96e2-c0391b5c586a",
+    "title": "probar POST",
+    "description": "Chequear que se cree la tarea, que persista en el archivo y que se actualice en memoria",
+    "priority": "high",
+    "completed": false,
+    "createdAt": "2026-05-29T23:47:58.642Z",
+    "updatedAt": "2026-05-29T23:47:58.642Z"
+  },
+  {
+    "id": "69a68d28-5bb7-4459-ba14-bb0ef464e844",
+    "title": "Testing tools",
+    "description": "Hacer pruebas con Thunder Client, extensión para VSC",
+    "priority": "low",
+    "completed": false,
+    "createdAt": "2026-05-29T23:53:48.288Z",
+    "updatedAt": "2026-05-29T23:53:48.288Z"
   }
 ]

@@ -6,6 +6,9 @@ const PORT = process.env.PORT || 3000;
 const API_PREFIX = "/api/v1";
 const server = express();
 
+/* cuando empezamos a enviar requests con un body en formato JSON (ej: POST, PUT, PATCH) necesitamos habilitar el middleware de Express llamado json() para poder acceder a esos datos en dicho formato. */
+server.use(express.json());
+
 
 // health check
 server.use("/health", healthRouter);
