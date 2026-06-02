@@ -9,6 +9,11 @@ const server = express();
 /* cuando empezamos a enviar requests con un body en formato JSON (ej: POST, PUT, PATCH) necesitamos habilitar el middleware de Express llamado json() para poder acceder a esos datos en dicho formato. */
 server.use(express.json());
 
+// index route - implementar una vista HTML con el motor de plantillas EJS con la documentación de la API
+
+server.get("/", (req, res) => {
+
+});
 
 // health check
 server.use("/health", healthRouter);
