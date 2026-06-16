@@ -1,0 +1,17 @@
+{
+  "name": "07-practica-frutas",
+  "version": "1.0.0",
+  "description": "Primera conexión a una BBDD Mongo Atlas",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch --env-file .env index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongodb": "^7.3.0"
+  }
+}
