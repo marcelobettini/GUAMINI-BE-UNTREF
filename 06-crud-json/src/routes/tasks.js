@@ -2,6 +2,7 @@ import { Router } from 'express';
 const router = Router();
 import { getAllTasks, getById, add } from '../services/fileStore.js';
 const VALID_PRIORITIES = ['low', 'mid', 'high'];
+
 router.get("/", (req, res, next) => {
     const tareas = getAllTasks();
     if (tareas.length === 0) {
@@ -41,7 +42,7 @@ Notas:
 
 5. El campo completed es un booleano que indica si la tarea está completada o no, y por defecto debe ser false. El usuario no envía un valor inicial.
 
-6. Los campos createdAt y updatedAt deben ser generados automáticamente por el servidor al crear o actualizar una tarea, respectivamente. El usuario no envía estos campos en la solicitud. Ejemplo: new Date().toISOString() para generar la fecha actual en formato ISO 8601.
+6. Los campos createdAt y updatedAt deben ser generados automáticamente por el servidor al crear o actualizar una tarea, respectivamente. El usuario no envía estos campos en la solicitud. Ejemplo: new Date() para generar la fecha actual en formato ISO 8601.
 
 */
 
@@ -51,13 +52,14 @@ router.post("/", (req, res, next) => {
         const error = new Error("El campo 'title' es obligatorio");
         error.status = 400;
         return next(error);
+
     }
     if (!VALID_PRIORITIES.includes(priority)) {
         const error = new Error("El campo porioridad debe contener 'mid' | 'low' | 'high' ");
         error.status = 400;
         return next(error);
     }
-    const now = new Date().toISOString();
+    const now = new Date();
     const task = {
         id: crypto.randomUUID(),
         title,
@@ -75,11 +77,23 @@ router.post("/", (req, res, next) => {
 router.put("/:id", (req, res) => {
     const { id } = req.params;
     res.status(200).json({ message: `Tarea ${id} actualizada exitosamente` });
+    res.status(200).json({ message: `Tarea ${id} actualizada exitosamente` });
 });
+
+//implementar
+
+router.patch("/:id", (req, res) => {
+    const { id } = req.params;
+    res.status(200).json({ message: `Tarea ${id} actualizada exitosamente` });
+
+});
+
+
 
 // implementar
 router.delete("/:id", (req, res) => {
     const { id } = req.params;
     res.status(200).json({ message: `Tarea ${id} eliminada exitosamente` });
 });
+
 export default router;
