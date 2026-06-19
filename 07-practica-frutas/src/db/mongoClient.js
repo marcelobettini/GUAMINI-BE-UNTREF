@@ -11,7 +11,9 @@ let db;
 
 // Crea el cliente, abre la conexión y guarda la referencia a la DB.
 // Debe llamarse una sola vez al arrancar el servidor, antes de app.listen().
+// El guard if (db) evita reconexiones accidentales si se llama más de una vez. Por ejemplo, cuando el servidor se reinicia automáticamente en modo desarrollo, o si por error alguien llama connectDB() desde otro módulo. Es una medida de seguridad para garantizar que siempre haya una sola conexión activa y evitar fugas de conexiones.
 export async function connectDB() {
+    if (db) return;
     const client = new MongoClient(process.env.MONGODB_URI);
     await client.connect();
     db = client.db(DB_NAME);
