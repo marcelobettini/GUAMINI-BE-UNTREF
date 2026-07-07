@@ -1,13 +1,18 @@
 import { Router } from 'express';
+import { getAll } from '../db/tasksStore.js';
 const router = Router();
 const VALID_PRIORITIES = ['low', 'mid', 'high'];
 
-router.get("/", (req, res, next) => {
-    res.json({ "message": "Todas las tareas" });
+router.get("/", async (req, res, next) => {
+    const tasks = await getAll();
+    if (tasks.length === 0) {
+        return res.status(404).json({ "message": "No hay tareas aún" });
+    }
+    res.json({ "message": "Todas las tareas", "tasks": tasks });
 });
 
 
-router.get("/:id", (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
     const { id } = req.params;
     res.json({ "message": `Tarea con id ${id}` });
 

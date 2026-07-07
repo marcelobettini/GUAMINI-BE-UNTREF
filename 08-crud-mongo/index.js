@@ -1,7 +1,7 @@
 import express from 'express';
 import healthRouter from './src/routes/health.js';
 import tasksRouter from './src/routes/tasks.js';
-
+import { connectDB } from './src/db/mongoClient.js';
 const PORT = process.env.PORT || 3000;
 const API_PREFIX = "/api";
 const server = express();
@@ -29,10 +29,14 @@ server.use((err, req, res, next) => {
     res.status(status).json({ status, error: err.message || 'Internal Server Error' });
 });
 
-server.listen(PORT, (err) => {
-    if (err) {
-        console.error('Error al iniciar el servidor:', err);
-        return;
-    }
-    console.log(`Servidor escuchando en el puerto http://localhost:${PORT}`);
+async function main() {
+    await connectDB();
+    server.listen(PORT, () => {
+        console.log(`Servidor escuchando en http://localhost:${PORT}`);
+    });
+}
+
+main().catch((err) => {
+    console.error('Error al iniciar la aplicación:', err);
+    process.exit(1);
 });
