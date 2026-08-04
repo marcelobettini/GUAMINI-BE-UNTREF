@@ -1,0 +1,16 @@
+{
+  "name": "crud-architecture01",
+  "version": "1.0.0",
+  "description": "Primera tarea de arquitectura backend en Node JS",
+  "author": "Marcelo Bettini",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "dev": "node --watch --env-file .env app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongoose": "^9.7.4"
+  }
+}
