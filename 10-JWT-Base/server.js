@@ -24,10 +24,11 @@ app.post('/login', (req, res) => {
     }
 });
 
-// La verificación del token va a fallar porque el formato 'Bearer <token>' no se está manejando correctamente. Si ponemos un console.log(token) luego de extraerlo del encabezado 'authorization', veremos que el token viene con el prefijo 'Bearer '. Para solucionarlo, debemos extraer solo la parte del token.
 
 function verifyToken(req, res, next) {
+    //Los JWT se envían en el encabezado de autorización con el formato "Bearer <token>". Solo necesitamos el token, por lo que lo extraemos del encabezado. 
     const token = req.headers['authorization'].split(" ")[1] || null;
+
     if (token) {
         jwt.verify(token, secretKey, (err, decoded) => {
             err ? res.status(401).json({ error: 'Token inválido.' })
