@@ -1,8 +1,9 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
-import productos from "./src/productos.js";
-import usuarios from "./src/usuarios.js";
-
+import Producto from './src/models/Producto.js';
+import Usuario from './src/models/Usuario.js';
+import { connectDB } from "./src/db/connection.js";
+import { seedDatabase } from './src/db/seed.js';
 process.loadEnvFile();
 
 const app = express();
@@ -11,11 +12,13 @@ const secretKey = process.env.SECRET_KEY;
 
 app.use(express.json());
 
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     console.log(`Datos recibidos: Usuario: ${username}, Password: ${password}`);
-    const userToValidate = usuarios.find((usr) => usr.username === username);
+
+    const userToValidate = await Usuario.findOne({ username });
+
     if (username === userToValidate.username && password === userToValidate.password) {
         const token = jwt.sign({ username: username }, secretKey, { expiresIn: '1h' });
         res.status(200).json({ token: token });
@@ -41,9 +44,17 @@ function verifyToken(req, res, next) {
     }
 }
 
-app.get('/productos', verifyToken, (req, res, next) => {
+app.get('/productos', verifyToken, async (req, res, next) => {
+    const productos = await Producto.find();
     res.status(200).json(productos);
     next();
 });
 
-app.listen(PORT, () => console.log(`Servidor iniciado en el puerto ${PORT}`));
+async function iniciarServidor() {
+    await connectDB();
+    await seedDatabase();
+    app.listen(PORT, () => console.log(`Servidor iniciado en el puerto ${PORT}`));
+
+}
+iniciarServidor()
+
