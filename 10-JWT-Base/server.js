@@ -1,12 +1,13 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
+import productos from "./src/productos.js";
+import usuarios from "./src/usuarios.js";
 
 process.loadEnvFile();
 
 const app = express();
 const PORT = process.env.PORT || 3008;
 const secretKey = process.env.SECRET_KEY;
-const userToValidate = { username: "Cameron", password: "H@lt4ndC4tchFire" };
 
 app.use(express.json());
 
@@ -14,10 +15,9 @@ app.post('/login', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     console.log(`Datos recibidos: Usuario: ${username}, Password: ${password}`);
-
-    if (username === "Cameron" && password === "H@lt4ndC4tchFire") {
+    const userToValidate = usuarios.find((usr) => usr.username === username);
+    if (username === userToValidate.username && password === userToValidate.password) {
         const token = jwt.sign({ username: username }, secretKey, { expiresIn: '1h' });
-        console.log(`Token generado: ${token}`);
         res.status(200).json({ token: token });
     } else {
         res.status(401).json({ error: 'Credenciales inválidas' });
@@ -27,7 +27,8 @@ app.post('/login', (req, res) => {
 
 function verifyToken(req, res, next) {
     //Los JWT se envían en el encabezado de autorización con el formato "Bearer <token>". Solo necesitamos el token, por lo que lo extraemos del encabezado. 
-    const token = req.headers['authorization'].split(" ")[1] || null;
+    // optional chaining operator
+    const token = req.headers['authorization']?.split(" ")[1];
 
     if (token) {
         jwt.verify(token, secretKey, (err, decoded) => {
@@ -40,9 +41,8 @@ function verifyToken(req, res, next) {
     }
 }
 
-app.get('/rutaprotegida', verifyToken, (req, res, next) => {
-    const username = req.decoded.username || null;
-    res.status(200).json({ "mensaje": "Has accedido correctamente a la ruta protegida.", "username": username });
+app.get('/productos', verifyToken, (req, res, next) => {
+    res.status(200).json(productos);
     next();
 });
 
