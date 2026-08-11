@@ -9,13 +9,16 @@ app.use(cookieParser());
 
 app.get("/", (req, res) => {
     const datosEnCookie = new Date();
+    const IMCookieText = "Este mensaje se autodestruirá, señor Hunt...";
     res.cookie('nodeCookie', datosEnCookie);
+    res.cookie('IMCookie', IMCookieText, { maxAge: 10000 });
     res.status(200).send(vistaPrincipal);
 });
 
 app.get('/leer-cookie', (req, res) => {
     const fechaAcceso = req.cookies.nodeCookie || 'No hay registro previo';
-    res.status(200).send('Fecha del último acceso: ' + fechaAcceso);
+    const message = req.cookies.IMCookie || 'Se autodestruyó';
+    res.status(200).json({ "Fecha último acceso": fechaAcceso, "Message": message });
 });
 
 app.get('/eliminar-cookie', (req, res) => {
