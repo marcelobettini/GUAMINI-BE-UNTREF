@@ -1,8 +1,8 @@
-require('dotenv').config();
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const vistaPrincipal = require('./views/views.js');
-const PORT = process.env.PORT ?? 3456;
+import express from "express";
+import cookieParser from "cookie-parser";
+import vistaPrincipal from './views/views.js';
+process.loadEnvFile();
+const PORT = process.env.PORT;
 const app = express();
 
 app.use(cookieParser());

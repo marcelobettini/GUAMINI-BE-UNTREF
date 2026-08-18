@@ -4,5 +4,5 @@ const vistaPrincipal = `<meta charset="utf-8"/>
                         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
                         <h1>Bienvenid@s</h1>
                         <p>Esta ruta principal registra su visita. Hemos generado una cookie en su navegador web.</p>
-                        `
-module.exports = vistaPrincipal 
+                        `;
+export default vistaPrincipal;
