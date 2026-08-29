@@ -12,7 +12,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.6.2",
     "mongodb-memory-server": "^11.2.0",
     "mongoose": "^9.9.3",
     "swagger-ui-express": "^5.0.1"

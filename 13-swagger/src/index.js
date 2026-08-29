@@ -5,6 +5,8 @@ import openapiSpec from './docs/openapi.js';
 import tasksRouter from './routes/tasks.js';
 import healthRouter from "./routes/health.js";
 import { connectDB, disconnectDB } from './db/mongoClient.js';
+import { notFound } from "./middlewares/notFound.js";
+import { errorHandler } from './middlewares/errorHandler.js';
 const app = express();
 const PORT = process.env.PORT || 3001;
 app.disable("x-powered-by");
@@ -14,8 +16,10 @@ app.disable("x-powered-by");
 app.use(express.json());
 
 
-const API_PREFIX = '/api/v1';
+const API_PREFIX = '/api';
 
+// Montamos el router de auth bajo el prefijo /api/auth
+app.use(`${API_PREFIX}/auth`, (req, res) => { });
 // Montamos el router de tareas bajo el prefijo /api/v1/tasks
 app.use(`${API_PREFIX}/tasks`, tasksRouter);
 
@@ -26,25 +30,15 @@ app.use(`${API_PREFIX}/docs`, swaggerUi.serve, swaggerUi.setup(openapiSpec));
 
 app.use("/health", healthRouter);
 
+
 // 404 para rutas no definidas, trabaja en conjunto con el error handler global
-app.use((req, res, next) => {
-    const error = new Error(`Not Found: ${req.method} ${req.originalUrl}`);
-    error.status = 404;
-    next(error);
-});
+app.use(notFound);
 
-// Manejador global de errores (si le paso 4 params Express lo reconoce como un error handler)
-app.use((err, req, res, next) => {
-    /*
-    1* Malformed JSON: El SyntaxError que lanza express.json() para json malformado trae status: 400, sin stack trace, así que con >= 500 queda silenciado en consola pero sigue respondiendo al cliente con el mensaje de error. Los errores reales del servidor (500) siguen logueando el stack trace completo.
-
-    2*  err.statusCode se agrega porque algunos middlewares de terceros usan esa propiedad en lugar de err.status.
-    */
-
-    const status = err.status || err.statusCode || 500;
-    if (status >= 500) console.error(err.stack);
-    res.status(status).json({ status, error: err.message || 'Internal Server Error' });
-});
+// Manejador de errores centralizado (si le paso 4 params Express lo reconoce como
+// error handler). Atrapa tanto los AppError que tiran las rutas como cualquier otra
+// excepción/rejection: malformed JSON de express.json() (trae status: 400), CastError/
+// ValidationError de Mongoose, o lo que sea inesperado (cae a 500).
+app.use(errorHandler);
 
 async function main() {
     await connectDB();
@@ -52,6 +46,15 @@ async function main() {
         console.log(`http://localhost:${PORT}`);
     });
 }
+
+async function shutdown() {
+    await disconnectDB();
+    console.log("\n\n Cerrando Base de datos...\n\n");
+    process.exit(0);
+}
+
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);
 
 main().catch(err => {
     console.log('Error al iniciar el servidor:', err);
