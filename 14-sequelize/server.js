@@ -1,22 +1,17 @@
-import sequelize from "./src/config/database.js";
-import Product from "./src/models/product.js";
+import { connect } from "./src/config/database.js";
+import productRouter from "./src/products/routes/productRoutes.js";
+import employeeRouter from "./src/employees/routes/employeeRoutes.js";
 
 import express from 'express';
 const app = express();
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, async () => {
-    await sequelize.authenticate();
-    console.log('Database connection has been established successfully.');
-    console.log(`Server running on port ${PORT}`);
-});
 
-app.get('/products', async (req, res) => {
-    try {
-        const rawProducts = await Product.findAll();
-        const products = rawProducts.map(prod => prod.dataValues);
-        res.json(products);
-    } catch (error) {
-        console.error('Error fetching products:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
+// Necesario para parsear JSON en req.body (POST/PUT/PATCH)
+app.use(express.json());
+
+app.use('/products', productRouter);
+app.use('/employees', employeeRouter);
+
+app.listen(PORT, async () => {
+    await connect();
 });

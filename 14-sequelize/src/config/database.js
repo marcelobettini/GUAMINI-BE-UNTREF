@@ -1,11 +1,11 @@
 import { Sequelize } from 'sequelize';
 process.loadEnvFile();
-const database = process.env.DATABASE;
+const database = process.env.DB;
 const dbUser = process.env.DB_USER;
-const password = process.env.PASSWORD;
-const host = process.env.HOST;
+const password = process.env.DB_PASS;
+const host = process.env.DB_HOST;
 
-const sequelize = new Sequelize(database, dbUser, password, {
+export const sequelize = new Sequelize(database, dbUser, password, {
     host,
     dialect: 'mysql',
     logging: false,
@@ -17,4 +17,12 @@ const sequelize = new Sequelize(database, dbUser, password, {
     }
 });
 
-export default sequelize;
+
+export async function connect() {
+    try {
+        await sequelize.authenticate();
+        console.log('Connection has been established successfully.');
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
+    }
+}
