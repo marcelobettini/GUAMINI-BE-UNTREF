@@ -1,0 +1,18 @@
+{
+  "name": "15-sequelize-joins",
+  "version": "1.0.0",
+  "description": "Proyecto de ejemplo para hacer queries con JOIN usando Sequelize",
+  "license": "MIT",
+  "author": "Marcelo Bettini",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch --env-file-if-exists=.env src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.3.0",
+    "mysql2": "^3.24.6",
+    "sequelize": "^6.37.8"
+  }
+}
