@@ -10,7 +10,7 @@ export const Product = sequelize.define(
     ProductName: { type: DataTypes.STRING(40), allowNull: false },
     SupplierID: { type: DataTypes.INTEGER },
     CategoryID: { type: DataTypes.INTEGER },
-    QuantityPerUnit: { type: DataTypes.STRING(20) },
+    QuantityPerUnit: { type: DataTypes.STRING(20), allowNull: true },
     UnitPrice: { type: DataTypes.DOUBLE, defaultValue: 0 },
     UnitsInStock: { type: DataTypes.SMALLINT, defaultValue: 0 },
     UnitsOnOrder: { type: DataTypes.SMALLINT, defaultValue: 0 },

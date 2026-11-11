@@ -15,7 +15,6 @@ const PASSWORD_MAX_BYTES = 72;
 
 function parseRegistration(body) {
   const { username, email, password } = body ?? {};
-
   if (
     typeof username !== 'string' ||
     typeof email !== 'string' ||

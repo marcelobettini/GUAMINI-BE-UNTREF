@@ -17,3 +17,13 @@ export async function getById(req, res) {
 
   res.json(product);
 }
+export async function listPublic(req, res) {
+  const products = await productService.findAllPublic(parsePagination(req.query));
+  res.json(products);
+}
+
+
+export async function create(req, res) {
+  const product = await productService.create(req.body);
+  res.status(201).json(product);
+}

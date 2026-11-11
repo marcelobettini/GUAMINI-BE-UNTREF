@@ -66,3 +66,23 @@ export function findById(id) {
     ],
   });
 }
+
+export function findAllPublic({ limit, offset } = {}) {
+  return Product.findAll({
+    attributes: ['ProductID', 'ProductName', 'UnitPrice', 'QuantityPerUnit'],
+    include: [
+      {
+        model: Category,
+        as: 'category',
+        attributes: ['CategoryName'],
+
+      }],
+    order: [['ProductName', 'ASC']],
+    limit,
+    offset
+  });
+}
+
+export function create(productData) {
+  return Product.create(productData);
+}
