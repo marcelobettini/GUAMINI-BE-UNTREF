@@ -1,0 +1,33 @@
+{
+  "name": "node-email",
+  "version": "1.0.0",
+  "description": "Proyecto educativo para ejemplificar uso de Nodemailer ",
+  "license": "MIT",
+  "author": "Marcelo Bettini",
+  "type": "module",
+  "main": "src/server.js",
+  "engines": { "node": ">=24" },
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --env-file=.env.test --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand"
+  },
+  "jest": { "testEnvironment": "node", "transform": {} },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.7.4",
+    "helmet": "^8.3.0",
+    "mysql2": "^3.24.6",
+    "nodemailer": "^10.5.0",
+    "sequelize": "^6.37.8",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "jest": "^30.5.2",
+    "supertest": "^7.3.2"
+  }
+}
